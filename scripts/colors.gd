@@ -7,5 +7,5 @@ const GREY := Color("B9B5C3")
 const DARK_GREY := Color("3F4349")
 
 const RED := Color("CF5656")
-const BLUE := Color("7AE0DD")
+const BLUE := Color("2F7AA5")
 const GREEN := Color("6EC27F")
