@@ -1,8 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://cprfaqvv6sgw"]
+[gd_scene load_steps=3 format=3 uid="uid://cprfaqvv6sgw"]
 
 [ext_resource type="Script" path="res://scripts/grid.gd" id="1_ae6fg"]
+[ext_resource type="Script" path="res://scripts/snake.gd" id="2_om1ol"]
 
 [node name="world" type="Node2D"]
 
 [node name="grid" type="Node2D" parent="."]
 script = ExtResource("1_ae6fg")
+
+[node name="snake" type="Node2D" parent="."]
+script = ExtResource("2_om1ol")
