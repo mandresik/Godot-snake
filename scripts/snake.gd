@@ -7,6 +7,9 @@ var currDirection := Vector2.RIGHT
 var nextDirection := Vector2.RIGHT
 
 var tweenMove: Tween
+var tweenInitGrow: Tween
+
+var score: int
 
 
 func _ready():
@@ -14,7 +17,8 @@ func _ready():
 	head.color = Colors.RED 
 	head.currPosition = Vector2(Game.GRID_SIZE.x / 2, Game.GRID_SIZE.y / 2)
 	snake.push_front(head)               
-	for i in range(Game.INIT_SIZE): grow()
+	score = 0
+	for i in range(Game.INIT_SCORE): grow()
 	
 	tweenMove = create_tween().set_loops()
 	tweenMove.tween_callback(move).set_delay(0.1)
@@ -58,12 +62,15 @@ func check_collision(nextPosition: Vector2) -> void:
 		nextPosition.y == Game.TOP_BORDER or nextPosition.y == Game.BOTTOM_BORDER):
 		print("out of plane")
 	
+	# there is initially head-body collision while creating snake
+	if score <= Game.INIT_SCORE: return
 	for i in range(1, snake.size()):
 		if snake[i].currPosition == head.currPosition:
 			print("head-body collision")
 
 
 func grow() -> void:
+	score += 1
 	var newSnakeCell := SnakeCell.new()
 	var lastSnakeCell := snake.back() as SnakeCell
 	
