@@ -25,8 +25,8 @@ func spawn_food() -> void:
 	
 	while isOnOccupiedPosition:
 		var randomPosition = Vector2()
-		randomPosition.x = randi_range(1, Game.RIGHT_BORDER - Game.CELL_SIZE.x)
-		randomPosition.y = randi_range(1, Game.BOTTOM_BORDER - Game.CELL_SIZE.y)
+		randomPosition.x = randi_range(Game.LEFT_BORDER + Game.CELL_SIZE.x, Game.RIGHT_BORDER - Game.CELL_SIZE.x)
+		randomPosition.y = randi_range(Game.TOP_BORDER + Game.CELL_SIZE.y, Game.BOTTOM_BORDER - Game.CELL_SIZE.y)
 		food.position = randomPosition.snapped(Game.CELL_SIZE)
 		
 		for snakeCell in snake.snake:

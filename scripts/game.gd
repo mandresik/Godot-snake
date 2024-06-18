@@ -12,3 +12,12 @@ const TOP_BORDER := 0
 const BOTTOM_BORDER := GRID_SIZE.y - CELL_SIZE.y
 
 const INIT_SCORE = 5
+
+var score := 0 : set = _set_score
+
+signal score_changed(newScore: int)
+
+
+func _set_score(newScore: int) -> void:
+	score = newScore
+	score_changed.emit(newScore)

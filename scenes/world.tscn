@@ -1,8 +1,36 @@
-[gd_scene load_steps=4 format=3 uid="uid://cprfaqvv6sgw"]
+[gd_scene load_steps=6 format=3 uid="uid://cprfaqvv6sgw"]
 
 [ext_resource type="Script" path="res://scripts/grid.gd" id="1_ae6fg"]
 [ext_resource type="Script" path="res://scripts/snake.gd" id="2_om1ol"]
 [ext_resource type="Script" path="res://scripts/foodSpawner.gd" id="3_sf7qb"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bo0b7"]
+bg_color = Color(0.136826, 0.136826, 0.136826, 1)
+
+[sub_resource type="GDScript" id="GDScript_afd6q"]
+resource_name = "labelScore"
+script/source = "extends Label
+
+var tween: Tween
+
+func _ready():
+	modulate.a = 0
+	
+	Game.score_changed.connect(_on_score_changed)
+
+
+func _process(delta):
+	pass
+
+
+func _on_score_changed(score: int) -> void:
+	text = str(score)
+	
+	if tween and tween.is_running(): tween.kill()
+	tween = create_tween().set_trans(Tween.TRANS_SINE)
+	tween.tween_property(self, \"modulate:a\", 1, .5).set_ease(Tween.EASE_OUT)
+	tween.tween_property(self, \"modulate:a\", 0, .5).set_ease(Tween.EASE_IN)
+"
 
 [node name="world" type="Node2D"]
 
@@ -15,3 +43,18 @@ script = ExtResource("2_om1ol")
 
 [node name="food_spawner" type="Node2D" parent="."]
 script = ExtResource("3_sf7qb")
+
+[node name="hud" type="CanvasLayer" parent="."]
+
+[node name="labelScore" type="Label" parent="hud"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 76.0
+offset_bottom = 32.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 23
+theme_override_styles/normal = SubResource("StyleBoxFlat_bo0b7")
+horizontal_alignment = 1
+script = SubResource("GDScript_afd6q")

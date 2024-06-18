@@ -8,23 +8,23 @@ var nextDirection := Vector2.RIGHT
 
 var tweenMove: Tween
 
-var score: int
+var isGameOver:bool
 
 signal hit(snakeCellHit: SnakeCell) 
 
 
 func _ready():
+	isGameOver = false
 	head.size = Game.CELL_SIZE
 	head.color = Colors.RED 
 	head.currPosition = Vector2(Game.GRID_SIZE.x / 2, Game.GRID_SIZE.y / 2)
 	snake.push_front(head)               
-	score = 0
 	for i in range(Game.INIT_SCORE): grow()
 	
-	hit.connect(onHit)
+	hit.connect(on_hit)
 	
 	tweenMove = create_tween().set_loops()
-	tweenMove.tween_callback(move).set_delay(0.1)
+	tweenMove.tween_callback(move).set_delay(0.075)
 
 
 func _process(delta):
@@ -47,7 +47,7 @@ func _input(event):
 		nextDirection = Vector2.DOWN
 		
 	# test for snake grow ... hitting space makes snake grow
-	if event.is_action_pressed("grow"): grow()
+	# if event.is_action_pressed("grow"): grow()
 
 
 func move() -> void: 
@@ -67,7 +67,7 @@ func check_collision(nextPosition: Vector2) -> void:
 		hit.emit(snake[0])
 	
 	# there is initially head-body collision while creating snake
-	if score <= Game.INIT_SCORE: return
+	if Game.score <= Game.INIT_SCORE: return
 	for i in range(1, snake.size()):
 		if snake[i].currPosition == head.currPosition:
 			# print("head-body collision")
@@ -75,7 +75,7 @@ func check_collision(nextPosition: Vector2) -> void:
 
 
 func grow() -> void:
-	score += 1
+	Game.score += 1
 	var newSnakeCell := SnakeCell.new()
 	var lastSnakeCell := snake.back() as SnakeCell
 	
@@ -85,5 +85,6 @@ func grow() -> void:
 	snake.push_back(newSnakeCell)
 
 
-func onHit(snakeCell: SnakeCell) -> void:
+func on_hit(snakeCell: SnakeCell) -> void:
 	tweenMove.kill()
+	isGameOver = true
