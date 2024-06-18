@@ -59,12 +59,13 @@ script/source = "extends Label
 
 
 func _ready():
-	pass
+	
+	var msg: String = \"Score: \" + str(Game.score) + \"\\n\\n\" + \"PRESS [ENTER] TO PLAY AGAIN\"
+	text = msg
 
 
 func _process(delta):
-	var msg: String = \"Score: \" + str(Game.score) + \"\\n\\n\" + \"PRESS [ENTER] TO PLAY AGAIN\"
-	text = msg
+	pass
 
 
 "

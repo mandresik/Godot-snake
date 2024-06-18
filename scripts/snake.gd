@@ -8,13 +8,10 @@ var nextDirection := Vector2.RIGHT
 
 var tweenMove: Tween
 
-var isGameOver:bool
-
 signal hit(snakeCellHit: SnakeCell) 
 
 
 func _ready():
-	isGameOver = false
 	head.size = Game.CELL_SIZE
 	head.color = Colors.RED 
 	head.currPosition = Vector2(Game.GRID_SIZE.x / 2, Game.GRID_SIZE.y / 2)
@@ -65,6 +62,7 @@ func check_collision(nextPosition: Vector2) -> void:
 		nextPosition.y == Game.TOP_BORDER or nextPosition.y == Game.BOTTOM_BORDER):
 		# print("out of plane")
 		hit.emit(snake[0])
+		Game.gameover.emit()
 	
 	# there is initially head-body collision while creating snake
 	if Game.score <= Game.INIT_SCORE: return
@@ -72,6 +70,7 @@ func check_collision(nextPosition: Vector2) -> void:
 		if snake[i].currPosition == head.currPosition:
 			# print("head-body collision")
 			hit.emit(snake[i])
+			Game.gameover.emit()
 
 
 func grow() -> void:
@@ -87,4 +86,3 @@ func grow() -> void:
 
 func on_hit(snakeCell: SnakeCell) -> void:
 	tweenMove.kill()
-	isGameOver = true

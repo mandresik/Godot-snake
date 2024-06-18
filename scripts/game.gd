@@ -16,8 +16,14 @@ const INIT_SCORE = 5
 var score := 0 : set = _set_score
 
 signal score_changed(newScore: int)
+signal gameover
 
 
 func _set_score(newScore: int) -> void:
 	score = newScore
 	score_changed.emit(newScore)
+
+
+func restart() -> void:
+	score = 0
+	get_tree().reload_current_scene()
